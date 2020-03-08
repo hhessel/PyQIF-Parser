@@ -1,18 +1,24 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Feb 24 10:57:27 2020
+@author: Uwe Ziegenhagen, ziegenhagen@gmail.com
 
-@author: Uwe
 """
 
 
+# load the module
 from PyQifParser import PyQifParser
 
+#initialize the Parser
 P = PyQifParser(r'C:\Users\Uwe\Nextcloud\QIF-Parser\Quicken_h.QIF')
+
+# parse the file
 P.parse()
 
+# create a dataframe with the transactions
 df = P.get_transactions()
 
+# save the transactions in a pickle object
 P.transactions_to_pickle('R:/test.pkl')
 
-#P.to_excel('r:/export.xlsx')
+# export transactions, etc to several tabs in an Excel-sheet
+P.to_excel('r:/export.xlsx')
