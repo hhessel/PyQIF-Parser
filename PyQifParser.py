@@ -34,6 +34,27 @@ class PyQifParser():
         self.dateformat = '%m.%d.%y'
         self.__autoswitch = None
 
+
+    def get_transactions(self):
+        """
+            Returns the dataframe for the transactions, sets columns 'Month'
+            and 'Year' based on the transaction date
+        """
+        # add columns for Month and Year
+        self.transactions['Year'] = self.transactions['Date'].dt.year
+        self.transactions['Month'] = self.transactions['Date'].dt.month
+        return self.transactions
+    
+    def transactions_to_pickle(self, path):
+        """
+            Exports the transactions into a pickle file
+        """
+        # add columns for Month and Year
+        self.transactions['Year'] = self.transactions['Date'].dt.year
+        self.transactions['Month'] = self.transactions['Date'].dt.month
+        self.transactions.to_pickle(path)
+    
+
     def to_excel(self, outputfile):
         """
             Exports the transactions, accounts, classifications and

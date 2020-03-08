@@ -10,4 +10,9 @@ from PyQifParser import PyQifParser
 
 P = PyQifParser(r'C:\Users\Uwe\Nextcloud\QIF-Parser\Quicken_h.QIF')
 P.parse()
-P.to_excel('r:/export.xlsx')
+
+df = P.get_transactions()
+
+P.transactions_to_pickle('R:/test.pkl')
+
+#P.to_excel('r:/export.xlsx')
