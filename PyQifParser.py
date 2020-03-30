@@ -66,6 +66,21 @@ class PyQifParser():
             self.classifications.to_excel(writer, sheet_name='Classifications', index=False)
             self.categories.to_excel(writer, sheet_name='Categories', index=False)
             writer.save()
+            
+
+    def to_beancount(self, outputfile):
+        """
+            Exports the transactions, accounts, classifications and
+            categories into an Excel-file
+        """
+        self.transactions['bcdate'] = self.transactions['Date'].dt.strftime('%Y-%m-%d')
+        with open(outputfile, "w", encoding="utf-8") as writer:
+            for entry in self.transactions.index: 
+                writer.write(self.transactions['bcdate'][entry] + ' * "' + str(self.transactions['Description'][entry])[:50]  + '"\n')
+                writer.write('\t' + self.transactions['Category'][entry] + '\t'*10 +  str(self.transactions['Amount'][entry]) + ' EUR\n')
+                writer.write('\t' + self.transactions['Category'][entry] + '\t'*10 +  str(-1 * self.transactions['Amount'][entry]) + ' EUR\n\n')
+                
+            
 
     def mode(self, mode):
         """

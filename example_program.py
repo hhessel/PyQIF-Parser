@@ -22,3 +22,5 @@ P.transactions_to_pickle('R:/test.pkl')
 
 # export transactions, etc to several tabs in an Excel-sheet
 P.to_excel('r:/export.xlsx')
+
+P.to_beancount('r:/beancount.txt')
