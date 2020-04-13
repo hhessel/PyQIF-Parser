@@ -21,6 +21,7 @@ class Account:
         self.__label = None
         self.__description = None
         self.__type = None
+        self.__currency = None        
 
     @property
     def type(self):
@@ -32,7 +33,7 @@ class Account:
     @type.setter
     def type(self, text):
         self.__type = text
-
+        
     @property
     def label(self):
         """
@@ -54,3 +55,16 @@ class Account:
     @description.setter
     def description(self, description):
         self.__description = description
+
+
+    @property
+    def currency(self):
+        """
+            returns the type of the account
+        """
+        return self.__currency
+
+    @currency.setter
+    def currency(self, text):
+        self.__currency = text        
+        
