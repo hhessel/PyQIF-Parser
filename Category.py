@@ -22,26 +22,44 @@ class Category:
 
     @property
     def label(self):
+        """
+            returns the category label
+        """
         return self.__label
 
     @label.setter
     def label(self, label):
+        """
+            sets the category label
+        """
         self.__label = label
 
     @property
     def parent(self):
+        """
+            returns the parent of this category
+        """
         return self.__parent
 
     @parent.setter
     def parent(self, parent):
+        """
+            sets the parent category for this category
+        """
         self.__parent = parent
 
     @property
     def description(self):
+        """
+            returns the description for this category
+        """
         return self.__description
 
-    @parent.setter
+    @description.setter
     def description(self, description):
+        """
+            sets the description for this category
+        """
         self.__description = description
 
     @property
@@ -53,6 +71,9 @@ class Category:
 
     @type.setter
     def type(self, type):
+        """
+            sets the type of this category
+        """
         self.__type = type
 
 
@@ -66,3 +87,4 @@ if __name__ == "__main__":
     c.type = "E"
     c.parent = "Expense"
     print(c.label, c.type, c.parent)
+    
