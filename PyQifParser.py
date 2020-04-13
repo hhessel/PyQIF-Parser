@@ -72,6 +72,7 @@ class PyQifParser():
         """
             Exports the transactions, accounts, classifications and
             categories into an Excel-file
+            @TODO: waits for detailed specifications, currency is still hardwired
         """
         self.transactions['bcdate'] = self.transactions['Date'].dt.strftime('%Y-%m-%d')
         with open(outputfile, "w", encoding="utf-8") as writer:
