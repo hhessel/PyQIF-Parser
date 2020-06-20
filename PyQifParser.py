@@ -4,6 +4,7 @@
 """
 
 import pandas as pd
+import numpy as np
 from Transaction import Transaction
 from Classification import Classification
 from Category import Category
@@ -44,6 +45,18 @@ class PyQifParser():
         self.transactions['Year'] = self.transactions['Date'].dt.year
         self.transactions['Month'] = self.transactions['Date'].dt.month
         return self.transactions
+    
+    def df_memberpayments(self, outputfile):
+        """
+            calculates a Pivot of payments from the transactions for
+            a specific year. This sis specific for usage at Dingfabrik.de
+        """
+        t = self.get_transactions()
+        t = t[t['Category'].str.startswith('Mitgliedsbeitrag_2110')]
+        t['Mitglied'] = t['Category'].str.split("/",expand=True)[1] + ' - ' + t['Payee'] 
+        table = pd.pivot_table(t, values='Amount', index=['Mitglied'], columns=['Month'], aggfunc=np.sum)
+        table.to_excel(outputfile)
+    
     
     def transactions_to_pickle(self, path):
         """
@@ -207,3 +220,8 @@ class PyQifParser():
                 else:
                     self.handle_other(line)
 
+
+p = PyQifParser(r'O:\Buchungen 2019 von 020420.QIF')
+p.parse()
+p.df_memberpayments(r'O:\pivot.xlsx')
+p.to_excel('o:/DF_Buchungen.xlsx')
