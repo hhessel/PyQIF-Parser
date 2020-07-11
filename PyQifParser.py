@@ -49,12 +49,14 @@ class PyQifParser():
     def df_memberpayments(self, outputfile):
         """
             calculates a Pivot of payments from the transactions for
-            a specific year. This sis specific for usage at Dingfabrik.de
+            a specific year. This is specific for usage at Dingfabrik.de
         """
         t = self.get_transactions()
+        t['Category'] = t['Category'].fillna('')
         t = t[t['Category'].str.startswith('Mitgliedsbeitrag_2110')]
-        t['Mitglied'] = t['Category'].str.split("/",expand=True)[1] + ' - ' + t['Payee'] 
-        table = pd.pivot_table(t, values='Amount', index=['Mitglied'], columns=['Month'], aggfunc=np.sum)
+        t['Mitglied'] = t['Category'].str.split("/",expand=True)[1].astype(int) #   + ' - ' + t['Payee'] 
+        t.to_clipboard()
+        table = pd.pivot_table(t, values='Amount', index=['Mitglied'], columns=['Year', 'Month'], aggfunc=np.sum)
         table.to_excel(outputfile)
     
     
@@ -221,7 +223,7 @@ class PyQifParser():
                     self.handle_other(line)
 
 
-p = PyQifParser(r'O:\Buchungen 2019 von 020420.QIF')
+p = PyQifParser(r'E:\DF\Buchungen ab 2018 am 220620.QIF')
 p.parse()
-p.df_memberpayments(r'O:\pivot.xlsx')
-p.to_excel('o:/DF_Buchungen.xlsx')
+p.df_memberpayments(r'E:\DF\pivot.xlsx')
+p.to_excel('e:/df/DF_Buchungen.xlsx')
