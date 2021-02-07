@@ -223,7 +223,7 @@ class PyQifParser():
                     self.handle_other(line)
 
 
-p = PyQifParser(r'E:\DF\Buchungen2020.QIF')
+p = PyQifParser(r'C:\Users\Uwe\Desktop\DF_Spendenbescheinigungen\2020\Buchungen2020.QIF')
 p.parse()
 p.df_memberpayments(r'E:\DF\pivot.xlsx')
-p.to_excel('e:/df/DF_Buchungen.xlsx')
+p.to_excel(r'C:\Users\Uwe\Desktop\DF_Spendenbescheinigungen\2020\DF_Buchungen.xlsx')
