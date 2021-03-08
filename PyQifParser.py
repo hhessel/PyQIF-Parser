@@ -1,14 +1,13 @@
-# -*- coding: utf-8 -*-
 """
 @author: Uwe Ziegenhagen, ziegenhagen@gmail.com
 """
 
 import pandas as pd
 import numpy as np
-from Transaction import Transaction
-from Classification import Classification
-from Category import Category
-from Account import Account
+from .Transaction import Transaction
+from .Classification import Classification
+from .Category import Category
+from .Account import Account
 
 t = Transaction()
 temp_classification = Classification()
@@ -221,9 +220,3 @@ class PyQifParser():
                     self.mode('other')
                 else:
                     self.handle_other(line)
-
-
-p = PyQifParser(r'C:\Users\Uwe\Desktop\DF_Spendenbescheinigungen\2020\Buchungen2020.QIF')
-p.parse()
-p.df_memberpayments(r'E:\DF\pivot.xlsx')
-p.to_excel(r'C:\Users\Uwe\Desktop\DF_Spendenbescheinigungen\2020\DF_Buchungen.xlsx')
