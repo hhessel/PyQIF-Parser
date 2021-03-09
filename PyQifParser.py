@@ -41,8 +41,12 @@ class PyQifParser():
             and 'Year' based on the transaction date
         """
         # add columns for Month and Year
-        self.transactions['Year'] = self.transactions['Date'].dt.year
-        self.transactions['Month'] = self.transactions['Date'].dt.month
+        try:
+            self.transactions['Year'] = self.transactions['Date'].dt.year
+            self.transactions['Month'] = self.transactions['Date'].dt.month
+        except AttributeError:
+            self.transactions['Year'] = np.NaN
+            self.transactions['Month'] = np.NaN
         return self.transactions
     
     def df_memberpayments(self, outputfile):
@@ -209,7 +213,7 @@ class PyQifParser():
                     self.mode('classifications')
                 elif line.startswith('!Type:Cat'):
                     self.mode('categories')
-                elif line.startswith('!Type:Bank'):
+                elif line.startswith('!Type:Bank') or line.startswith('Type:Cash') or line.startswith('!Type:CCard'):
                     self.mode('transactions')
                 elif line.startswith('!Account'):
                     if self.__autoswitch:
