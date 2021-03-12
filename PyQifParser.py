@@ -213,7 +213,7 @@ class PyQifParser():
                     self.mode('classifications')
                 elif line.startswith('!Type:Cat'):
                     self.mode('categories')
-                elif line.startswith('!Type:Bank') or line.startswith('Type:Cash') or line.startswith('!Type:CCard'):
+                elif line.startswith('!Type:Bank') or line.startswith('!Type:Cash') or line.startswith('!Type:CCard'):
                     self.mode('transactions')
                 elif line.startswith('!Account'):
                     if self.__autoswitch:
