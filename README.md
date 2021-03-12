@@ -13,7 +13,7 @@ As I do not use split bookings I probably will not spend some effort to implemen
 
 ## Contributions
 
-All work done by Uwe Ziegenhagen. I did just repackaged this with some slight changes for my own purposes and so it's available as https://pypi.org/project/PyQifParser/ package. 
+All work done by Uwe Ziegenhagen. I did just repackage the code with some slight changes for my own purposes and so it's available as https://pypi.org/project/PyQifParser/ package. 
 
 ## Resources
 
