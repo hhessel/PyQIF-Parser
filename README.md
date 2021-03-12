@@ -4,11 +4,16 @@ A(nother) Python-based Parser for Quicken / Lexware Finance Manager QIF files.
 
 ## Why
 
-There are already some Python-based parsers for QIF files, however they had issues with the file my (German) Lexware Financial Manager 2019 is spitting out. 
+There are already some Python-based parsers for QIF files, however they had issues with the file my (German) Lexware Financial Manager (Finanzmanager) 2021 is spitting out. 
 
 What I basically need is a tool to convert a QIF file into a pandas dataframe, so this is my main motivation. 
 
 As I do not use split bookings I probably will not spend some effort to implement them. Feel free to send a pull request.
+
+
+## Contributions
+
+All work done by Uwe Ziegenhagen. I did just repackaged this with some slight changes for my own purposes and so it's available as https://pypi.org/project/PyQifParser/ package. 
 
 ## Resources
 
@@ -24,8 +29,9 @@ In the file I used to build the parser there were:
 * The accounts
 * The bookings 
 
+## How install
 
-
+pip install PyQifParser
 
 ## Proof of Concept
 
