@@ -4,10 +4,12 @@
 
 import pandas as pd
 import numpy as np
+from collections import defaultdict
 from .Transaction import Transaction
 from .Classification import Classification
 from .Category import Category
 from .Account import Account
+
 
 t = Transaction()
 temp_classification = Classification()
@@ -33,7 +35,7 @@ class PyQifParser():
         self.encoding = encoding
         self.dateformat = '%m.%d.%y'
         self.__autoswitch = None
-
+        self.__internalcache = defaultdict(list)
 
     def get_transactions(self):
         """
@@ -128,6 +130,7 @@ class PyQifParser():
             handles the individual lines of the file
             based on the current mode
         """
+        
         if self.__mode == 'classifications':
             if line.startswith('N'):
                 temp_classification.clear()
@@ -135,10 +138,9 @@ class PyQifParser():
             elif line.startswith('D'):
                 temp_classification.description = line[1:-1]
             elif line.startswith('^'):
-                self.classifications = self.classifications.append(
+                self.__internalcache['classifications'].append(
                     {'Label': temp_classification.label,
-                     'Description': temp_classification.description},
-                    ignore_index=True)
+                     'Description': temp_classification.description})
 
         elif self.__mode == 'categories':
             if line.startswith('N'):
@@ -151,12 +153,11 @@ class PyQifParser():
             elif line[:-1] in ['I', 'E']:
                 temp_category.type = line[:-1]
             elif line.startswith('^'):
-                self.categories = self.categories.append(
-                    {'Label': temp_category.label,
+                self.__internalcache['categories'].append({'Label': temp_category.label,
                      'Parent': temp_category.parent,
                      'Description': temp_category.description,
-                     'Type':temp_category.type},
-                    ignore_index=True)
+                     'Type':temp_category.type})
+
 
         elif self.__mode == 'accounts':
             if line.startswith('N'):
@@ -167,11 +168,10 @@ class PyQifParser():
             elif line.startswith('D'):
                 temp_account.description = line[1:-1]
             elif line.startswith('^'):
-                self.accounts = self.accounts.append(
+                self.__internalcache['accounts'].append(
                     {'Label': temp_account.label,
                      'Type' : temp_account.type,
-                     'Description': temp_account.description},
-                    ignore_index=True)
+                     'Description': temp_account.description})
 
         elif self.__mode == 'transactions':
             if line.startswith('D'):
@@ -190,13 +190,12 @@ class PyQifParser():
             elif line.startswith('L'):
                 t.category = line[1:-1]
             elif line.startswith('^'):
-                self.transactions = self.transactions.append(
+                self.__internalcache['transactions'].append(
                     {'Date': pd.to_datetime(t.date, format=self.dateformat),
                      'Amount': t.amount, 'Cleared': t.cleared,
                      'Category': t.category, 'Payee': t.payee,
                      'Reference': t.reference,
-                     'Description': t.description},
-                    ignore_index=True)
+                     'Description': t.description})
 
 
     def parse(self):
@@ -224,3 +223,14 @@ class PyQifParser():
                     self.mode('other')
                 else:
                     self.handle_other(line)
+
+        if 'categories' in self.__internalcache.keys():
+            self.categories = pd.DataFrame(self.__internalcache['categories'])
+        if 'classifications' in self.__internalcache.keys():
+            self.classifications = pd.DataFrame(self.__internalcache['classifications'])
+        if 'transactions' in self.__internalcache.keys():
+            self.transactions = pd.DataFrame(self.__internalcache['transactions'])
+        if 'accounts' in self.__internalcache.keys():
+            self.accounts = pd.DataFrame(self.__internalcache['accounts'])
+
+        
