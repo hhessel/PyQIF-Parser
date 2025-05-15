@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='PyQifParser',
-      version='0.4',
+      version='0.5',
       description='A(nother) Python-based Parser for Quicken / Lexware Finance Manager QIF files.',
       url='https://github.com/hhessel/PyQIF-Parser',
       author='Uwe Ziegenhagen / Packaged by Henrik Hessel',
